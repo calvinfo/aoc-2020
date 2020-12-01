@@ -48,7 +48,7 @@ pub fn part1(input: Vec<i32>) -> i32 {
 
 pub fn part2(input: Vec<i32>) -> i32 {
     // permutations can give us all sets of three numbers
-    let mut candidates = input.into_iter().permutations(3);
+    let mut candidates = input.into_iter().combinations(3);
     let solution = candidates.find(|x| x[0] + x[1] + x[2] == 2020);
     return solution.unwrap().into_iter().product();
 }
