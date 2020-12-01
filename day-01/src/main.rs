@@ -1,7 +1,7 @@
-use std::io::Read;
-use std::fs::File;
-use std::collections::HashSet;
 use itertools::Itertools;
+use std::collections::HashSet;
+use std::fs::File;
+use std::io::Read;
 
 fn main() {
     let v = load(String::from("./input"));
@@ -39,7 +39,7 @@ pub fn part1(input: Vec<i32>) -> i32 {
         let candidate = compare - i;
         if numbers.contains(&candidate) {
             return candidate * i;
-        } else{
+        } else {
             numbers.insert(i);
         }
     }
@@ -47,14 +47,8 @@ pub fn part1(input: Vec<i32>) -> i32 {
 }
 
 pub fn part2(input: Vec<i32>) -> i32 {
-    let compare = 2020i32;
     // permutations can give us all sets of three numbers
-    let candidates = input.into_iter().permutations(3);
-    for candidate in candidates {
-        let (v1, v2, v3) = (candidate[0], candidate[1], candidate[2]);    
-        if v1 + v2 + v3 == compare {
-            return v1 * v2 * v3
-        }
-    }
-    return -1;
+    let mut candidates = input.into_iter().permutations(3);
+    let solution = candidates.find(|x| x[0] + x[1] + x[2] == 2020);
+    return solution.unwrap().into_iter().product();
 }
