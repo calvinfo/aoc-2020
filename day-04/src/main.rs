@@ -38,7 +38,6 @@ impl Passport {
             let v = s.next().unwrap().to_string();
             items.insert(k, v);
         }
-
         Passport { map: items }
     }
 
@@ -76,7 +75,7 @@ impl Passport {
 }
 
 pub fn valid_range(s: &String, lo: &str, hi: &str) -> bool {
-    s.len() == hi.len() && s >= &String::from(lo) && s <= &String::from(hi)
+    s.len() == hi.len() && s >= &lo.to_string() && s <= &hi.to_string()
 }
 
 pub fn valid_hair(s: &String) -> bool {
