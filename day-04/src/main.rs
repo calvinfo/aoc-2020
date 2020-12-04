@@ -3,8 +3,8 @@ use std::io::Read;
 use std::{collections::HashMap, fs::File};
 
 fn main() {
-    let mut inp = load(String::from("./input"));
-    let mut passports = load_passports(inp);
+    let inp = load(String::from("./input"));
+    let passports = load_passports(inp);
 
     let sol1 = part1(&passports);
     println!("Part 1: {}", sol1);
@@ -18,7 +18,7 @@ pub fn part1(v: &Vec<Passport>) -> usize {
 }
 
 pub fn part2(v: &Vec<Passport>) -> usize {
-    v.iter().filter(|x| x.is_valid_2()).count()
+    v.iter().filter(|x| x.is_valid_2().unwrap()).count()
 }
 
 /**
@@ -34,9 +34,9 @@ impl Passport {
         let line = str.replace("\n", " ");
         let mut items = HashMap::new();
         for mut s in line.split(" ").map(|x| x.split(":")) {
-            let k = s.next().unwrap();
-            let v = s.next().unwrap();
-            items.insert(String::from(k), String::from(v));
+            let k = s.next().unwrap().to_string();
+            let v = s.next().unwrap().to_string();
+            items.insert(k, v);
         }
 
         Passport { map: items }
@@ -51,69 +51,41 @@ impl Passport {
             == required.len()
     }
 
-    fn is_valid_2(&self) -> bool {
+    fn is_valid_2(&self) -> Option<bool>  {
         if !self.is_valid() {
-            return false;
+            return Some(false);
         }
 
         let m = &self.map;
-        let byr = m.get("byr").unwrap();
-        let iyr = m.get("iyr").unwrap();
-        let eyr = m.get("eyr").unwrap();
-        let hgt = m.get("hgt").unwrap();
-        let pid = m.get("pid").unwrap();
-        let hcl = m.get("hcl").unwrap();
-        let ecl = m.get("ecl").unwrap();
+        let byr = m.get("byr")?;
+        let iyr = m.get("iyr")?;
+        let eyr = m.get("eyr")?;
+        let hgt = m.get("hgt")?;
+        let pid = m.get("pid")?;
+        let hcl = m.get("hcl")?;
+        let ecl = m.get("ecl")?;
 
-        if byr.len() != 4 || !valid_range(byr, "1920", "2002") {
-            return false;
-        }
-
-        if iyr.len() != 4 || !valid_range(iyr, "2010", "2020") {
-            return false;
-        }
-
-        if eyr.len() != 4 || !valid_range(eyr, "2020", "2030") {
-            return false;
-        }
-
-        if !valid_height(hgt) {
-            return false;
-        }
-
-        if !valid_id(pid) {
-            return false;
-        }
-
-        if !valid_hair(hcl) {
-            return false;
-        }
-
-        if !valid_eye(ecl) {
-            return false;
-        }
-
-        true
+        Some(valid_range(byr, "1920", "2002")
+            && valid_range(iyr, "2010", "2020")
+            && valid_range(eyr, "2020", "2030")
+            && valid_height(hgt)
+            && valid_id(pid)
+            && valid_hair(hcl)
+            && valid_eye(ecl))
     }
 }
 
 pub fn valid_range(s: &String, lo: &str, hi: &str) -> bool {
-    s >= &String::from(lo) && s <= &String::from(hi)
+    s.len() == hi.len() && s >= &String::from(lo) && s <= &String::from(hi)
 }
 
 pub fn valid_hair(s: &String) -> bool {
-    if s.len() != 7 {
-        return false;
-    }
-    let r = Regex::new(r"#[a-f0-9]{6}").unwrap();
+    let r = Regex::new(r"^#[a-f0-9]{6}$").unwrap();
     r.is_match(s)
 }
 
 pub fn valid_id(s: &String) -> bool {
-    if s.len() != 9 {
-        return false;
-    }
-    let r = Regex::new(r"[0-9]{9}").unwrap();
+    let r = Regex::new(r"^[0-9]{9}$").unwrap();
     r.is_match(s)
 }
 
