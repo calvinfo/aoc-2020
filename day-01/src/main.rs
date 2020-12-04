@@ -52,3 +52,13 @@ pub fn part2(input: Vec<i32>) -> i32 {
     let solution = candidates.find(|x| x[0] + x[1] + x[2] == 2020);
     return solution.unwrap().into_iter().product();
 }
+
+#[cfg(tests)]
+mod tests {
+    
+    #[test]
+    pub fn test1() {
+        let v = load(String::from("./input"));
+        let sol1 = part1(v);
+    }
+}
