@@ -1,5 +1,5 @@
-use std::{fs::File, io::Read};
 use itertools::Itertools;
+use std::{fs::File, io::Read};
 
 fn main() {
     let inp = load(String::from("./input"));
@@ -26,26 +26,33 @@ pub fn part2(v: &Vec<Group>) -> i32 {
  */
 
 pub struct Group {
-    passengers: Vec<Passenger>
+    passengers: Vec<Passenger>,
 }
 
 pub struct Passenger {
-    responses: Vec<char>
+    responses: Vec<char>,
 }
 
 impl Group {
     fn from_str(s: &str) -> Group {
         let mut passengers = Vec::new();
         for s in s.lines() {
-            let p = Passenger{responses: s.chars().collect_vec()};
+            let p = Passenger {
+                responses: s.chars().collect_vec(),
+            };
             passengers.push(p)
         }
-        Group{passengers}
+        Group { passengers }
     }
 
     // Count the number of passengers who said yes to any question
     fn num(&self) -> i32 {
-        self.passengers.iter().map(|x| &x.responses).flatten().unique().count() as i32
+        self.passengers
+            .iter()
+            .map(|x| &x.responses)
+            .flatten()
+            .unique()
+            .count() as i32
     }
 
     // Count the number of passengers who all said yes to a question
@@ -60,7 +67,10 @@ impl Group {
             }
         }
 
-        counts.iter().filter(|x| *x == &self.passengers.len()).count()
+        counts
+            .iter()
+            .filter(|x| *x == &self.passengers.len())
+            .count()
     }
 }
 
