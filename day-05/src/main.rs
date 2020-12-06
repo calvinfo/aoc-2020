@@ -24,7 +24,7 @@ pub fn part2(v: &Vec<Seat>) -> i32 {
 
     for id in it {
         if *id > curr + 1 {
-            return curr + 1
+            return curr + 1;
         }
         curr = id;
     }
@@ -44,7 +44,7 @@ impl Seat {
     fn from_str(s: &str) -> Seat {
         let row = Seat::get_row(&s[0..7]);
         let col = Seat::get_col(&s[7..10]);
-        return Seat{row, col}
+        return Seat { row, col };
     }
 
     fn get_col(s: &str) -> u8 {
@@ -87,9 +87,7 @@ impl Seat {
  */
 
 pub fn load_seats(inp: String) -> Vec<Seat> {
-    inp.lines()
-        .map(|x| Seat::from_str(x))
-        .collect()
+    inp.lines().map(|x| Seat::from_str(x)).collect()
 }
 
 pub fn load(filename: String) -> String {
