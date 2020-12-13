@@ -62,7 +62,7 @@ fn part2(s: &Schedule) -> u64 {
             number = target_remainder as u64;
             step = *modulo as u64;
             continue;
-        } 
+        }
 
         target_remainder = target_remainder % (*modulo as usize);
         while (number % *modulo as u64) != (target_remainder as u64) {
@@ -71,7 +71,7 @@ fn part2(s: &Schedule) -> u64 {
 
         step *= *modulo as u64;
     }
-    
+
     step - number
 }
 
@@ -82,11 +82,6 @@ fn part2(s: &Schedule) -> u64 {
 struct Schedule {
     time: u32,
     bus_routes: Vec<u32>,
-}
-
-struct Schedule_2 {
-    time: u32,
-    bus_routes: Vec<(usize, u32)>,
 }
 
 /**
