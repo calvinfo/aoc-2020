@@ -59,7 +59,7 @@ impl Game {
             let val = seen.get(&item);
             match val {
                 Some(val) => seen.insert(item, (step, val.0)),
-                None => seen.insert(item, (step, -1))
+                None => seen.insert(item, (step, -1)),
             };
             last = item;
         }
@@ -73,8 +73,8 @@ impl Game {
         let sequence = seen.get(&self.last);
         // First we lookup the last time the last number was seen
         let num = match sequence {
-            None => 0,  // hasn't been seen before: 0
-            Some((x, -1)) => 0, // has been seen once: 0
+            None => 0,             // hasn't been seen before: 0
+            Some((x, -1)) => 0,    // has been seen once: 0
             Some((x, y)) => x - y, // has been seen twice: diff
         };
 
@@ -82,7 +82,7 @@ impl Game {
         let seq = seen.get(&num);
         match seq {
             Some((x, y)) => self.seen.insert(num, (self.step, *x)),
-            None => self.seen.insert(num, (self.step, -1))
+            None => self.seen.insert(num, (self.step, -1)),
         };
 
         self.last = num;
